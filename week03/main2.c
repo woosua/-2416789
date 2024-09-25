@@ -4,14 +4,13 @@
 /* run this program using the console pauser or add your own getch, system("pause") or input loop */
 
 int main(void) {
-	char c;
-	int i;
+	char x,y;
 	
-	printf("input a number : ");
-	scanf("%c", &c);
+	printf("enter a character : ");
+	scanf("%c", &x);
 	
-	i=c-'0';
-	printf("The input number is %i\n", i);
+	y=x+1;
+	printf("the next character of %c (%i) is %c (%i)", x,x,y,y);
 	
 	return 0;
 }
