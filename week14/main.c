@@ -121,24 +121,32 @@ void checkDie(void)
 // ----- EX. 6 : game end ------------
 int getAlivePlayer(void)
 {
-   int count=0;
-   for (int i=0;i<N_PLAYER;i++){
-   	if (player_status[i]==PLAYERSTATUS_LIVE){
-   		count++;
-	   }
-   } return count;
+  int i;
+  int cnt=0;
+  for (i=0;i<N_PLAYER;i++)
+  {
+  	if(player_status[i]==PLAYERSTATUS_END)
+  		cnt++;
+  }
+  
+  return cnt;
 }
 
 int getWinner(void)
 {
-    int maxcoin=-1;
-    int winner=-1;
-    for (int i=0;i<N_PLAYER;i++){
-    	if (player_status[i] !=PLAYERSTATUS_DIE && player_coin[i]>maxcoin){
-    		maxcoin=player_coin[i];
+    int i;
+    int winner=0;
+    int max_coin=-1;
+    
+    for (i=0;i<N_PLAYER;i++)
+    {
+    	if(player_coin[i]>max_coin)
+    	{
+    		max_coin=player_coin[i];
     		winner=i;
 		}
-	} return winner;
+	}
+	return winner;
 }
 // ----- EX. 6 : game end ------------
 
@@ -147,6 +155,7 @@ int main(int argc, const char * argv[]) {
     
     int i;
     int turn=0;
+    int gameAlreadyEnded=0;
 
 // ----- EX. 1 : Preparation------------
     srand(time(NULL));
@@ -195,7 +204,7 @@ int main(int argc, const char * argv[]) {
         //step 2-2. rolling die
 // ----- EX. 4 : player ------------
         printf("%s turn!! ", player_name[turn]);
-        printf("Press any key to roll a die!\n");
+        printf("Press any key to roll a dice!\n");
         scanf("%d", &dum);
         fflush(stdin);
 // ----- EX. 4 : player ------------
@@ -222,13 +231,10 @@ int main(int argc, const char * argv[]) {
         //step 2-5. end process
         turn = (turn + 1) % N_PLAYER; 
         
-        if (turn == 0) {
-        	int sharkMoved = board_stepShark();
-            if (sharkMoved) {
-                printf("Shark moved to position %d!\n", board_stepShark());  // shark_position을 직접 출력
-            }
-        }
-       
+       if (turn==0 && gameAlreadyEnded==0){
+        	int shark_pos=board_stepShark();
+        	checkDie();
+		}
     
 // ----- EX. 6 : game end ------------
     } while(game_end() == 0);

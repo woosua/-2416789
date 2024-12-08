@@ -70,17 +70,19 @@ int board_initBoard(void)
 // ----- EX. 5 : shark ------------
 int board_stepShark(void)
 {
-	if (shark_position<N_BOARD-1){
-		shark_position++;
-		board_status[shark_position]=BOARDSTATUS_NOK;
-		if (shark_position>0){
-			board_status[shark_position-1]=BOARDSTATUS_OK;
-		}
-		printf("Shark moved to position %d\n", shark_position);
-		return 1;
+	int step=(rand() % MAX_SHARKSTEP) +1;
+	int new_position=shark_position+step;
+	int i=shark_position;
+	
+	while (i<=new_position&&i<N_BOARD){
+		board_status[i]=BOARDSTATUS_NOK;
+		i++;
 	}
-	printf("SHark has reched the end of the board!\n");
-	return 0;
+	
+	shark_position=(new_position<N_BOARD) ? new_position:N_BOARD-1;
+	printf("Shark moved to position %d\n", shark_position);
+	
+	return shark_position;
 
 }
 // ----- EX. 5 : shark ------------
